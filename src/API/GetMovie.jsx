@@ -2,8 +2,6 @@ const GetMovie = "https://mock-api.driven.com.br/api/v5/cineflex/movies";
 
 export default GetMovie;
 
-//need to change the ID_DO_FILME to the id of the selected movie
-
 // Answer from server:
 // [
 // 	{

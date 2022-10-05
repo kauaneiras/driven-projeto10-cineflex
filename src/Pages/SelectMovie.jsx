@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import TopBar from "../Components/TopBar"
 import Loading from "../Components/Loading"
@@ -18,7 +18,7 @@ export default function SelectMovie() {
     }, []);
 
     if (movies === false) {
-        return (<AlignPage><TopBar/><Loading /></AlignPage>)
+        return (<AlignPage><TopBar/><Loading/></AlignPage>)
     }
     else {
         return (
@@ -55,7 +55,7 @@ const AlignPage = styled.div`
     height: 100%;
     background-color: #FFFFFF;
     position: absolute;
-    `
+`
 
 const MoviesAlign = styled.div`
     display: flex;

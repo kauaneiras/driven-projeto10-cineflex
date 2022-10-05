@@ -1,5 +1,5 @@
-export const GetSections= "https://mock-api.driven.com.br/api/v5/cineflex/movies/ID_DO_FILME/showtimes";
-
+// const GetSections= `https://mock-api.driven.com.br/api/v5/cineflex/movies/${id.Movie}/showtimes`;
+// export default GetSections;
 // Need to change the ID_DO_FILME to the id of the selected movie
 
 //answer from server:

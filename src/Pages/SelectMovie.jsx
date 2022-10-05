@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import TopBar from "../Components/TopBar"
 import Loading from "../Components/Loading"
@@ -24,18 +24,30 @@ export default function SelectMovie() {
         return (
             <AlignPage>
                 <TopBar />
-                <h2 style={{fontSize: '50px', color: 'black'}}>Selecione o filme</h2>
+                <Tittle>Selecione o filme</Tittle>
                 <MoviesAlign>
-                    {movies.map((movie) => <MovieImage><Link to={`/sessoes/${movie.id}`}><img src={movie.posterURL} alt="" /></Link></MovieImage>)}
+                    {movies.map((movie) => <Link to={`/sessoes/${movie.id}`}><MovieImage src={movie.posterURL} alt="" /></Link>)}
                 </MoviesAlign>
             </AlignPage>
         )
     }
 }
 
-
+const Tittle = styled.h1`
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.04em;
+    margin: 20px;
+`
 const AlignPage = styled.div`
     display: flex;
+    margin-top: 50px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -49,16 +61,10 @@ const MoviesAlign = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    width: 129px;
-    height: 193px;
-    left: 213px;
-    top: 177px;
-    margin: 10px;
-    
+    align-items: center;    
 `
 
-const MovieImage = styled.div`
+const MovieImage = styled.img`
     width: 129px;
     height: 193px;
     left: 213px;

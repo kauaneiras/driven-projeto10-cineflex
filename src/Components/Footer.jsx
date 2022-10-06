@@ -1,7 +1,6 @@
 import styled from "styled-components"
 
 export default function Footer(movie) {
-    console.log("MOVIEEE: "+movie);
     return (
         <FooterDiv>
             <MoviePoster src={movie.image} alt=""/>

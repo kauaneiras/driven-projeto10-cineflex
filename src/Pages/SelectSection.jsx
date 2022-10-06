@@ -47,7 +47,7 @@ function RenderTimes(section) {
         <ShowTimes>
             {showtimes.map(time => {
                 return (
-                    <Link to={`/SelectSeats/${time.id}`} >
+                    <Link to={`/seats/${time.id}`} >
                         <Hour>
                             <HourNumber>{time.name}</HourNumber>
                         </Hour>

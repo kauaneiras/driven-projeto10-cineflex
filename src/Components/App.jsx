@@ -15,10 +15,9 @@ export default function App(){
             <GlobalStyle/>
             <Routes>
                 <Route path="/" element={<SelectMovie/>}/>
-                <Route path="/sessoes/:idMovie" element={<SelectSection/>}/>
-                <Route path="/assentos/:time.id" element={<SelectSeats/>}/>
-                <Route path="/sucesso/" element={<OrderConfirmation/>}/>
-                {/* <Route path="/game/:idDeck" element={<Game/>}/> */}
+                <Route path="/sections/:idMovie" element={<SelectSection/>}/>
+                <Route path="/seats/:idSeats" element={<SelectSeats/>}/>
+                <Route path="/sucess/" element={<OrderConfirmation/>}/>
             </Routes>
         </BrowserRouter>      
     )

@@ -6,34 +6,36 @@ import { Link, useParams } from "react-router-dom";
 //COMPONENTS
 import TopBar from "../Components/TopBar"
 import Loading from "../Components/Loading";
+import Footer from "../Components/Footer";
 
 
-export default function SelectSectionTime(){
-    const {idMovie} = useParams();
+export default function SelectSectionTime() {
+    const { idMovie } = useParams();
     const [sections, setSections] = useState(false);
 
 
     useEffect(() => {
         const promisse = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idMovie}/showtimes`);
-        promisse.then((sucess) => { setSections(sucess.data)});
+        promisse.then((sucess) => { setSections(sucess.data) });
         promisse.catch((warning) => console.log(warning.response));
     }, []);
 
-    console.log(sections);	
+    console.log(sections);
     console.log(sections.days);
     const days = sections.days;
 
 
     if (sections === false) {
-        return (<AlignPage><TopBar/><Loading/></AlignPage>)
+        return (<AlignPage><TopBar/><Loading /></AlignPage>)
     }
     else {
         return (<AlignPage>
-            <TopBar/>
+            <TopBar />
             <Tittle>Selecione o horário</Tittle>
             <AlignSections>
-            {days.map((section) => RenderTimes(section))}
-        </AlignSections>
+                {days.map((section) => RenderTimes(section))}
+            </AlignSections>
+            <Footer image={sections.posterURL} title={sections.title} time=""/>
         </AlignPage>)
     }
 }
@@ -41,18 +43,21 @@ export default function SelectSectionTime(){
 function RenderTimes(section) {
     let showtimes = section.showtimes;
     return (<AlignSections>
-            <Day>{section.weekday} - {section.date}</Day>
-            <ShowTimes>
-                {showtimes.map( time => {return (
-                        <Link to={`/PageThree/${time.id}`} >
-                            <Hour>
-                                <HourNumber>{time.name}</HourNumber>
-                            </Hour>
-                        </Link>)})}
-            </ShowTimes></AlignSections>)
+        <Day>{section.weekday} - {section.date}</Day>
+        <ShowTimes>
+            {showtimes.map(time => {
+                return (
+                    <Link to={`/SelectSeats/${time.id}`} >
+                        <Hour>
+                            <HourNumber>{time.name}</HourNumber>
+                        </Hour>
+                    </Link>)
+            })}
+        </ShowTimes>
+    </AlignSections>)
 }
 
-{/* <Link to={`/assentos/${section.id}/${}`}></Link> */}
+{/* <Link to={`/assentos/${section.id}/${}`}></Link> */ }
 
 const AlignSections = styled.div`
     display: flex;

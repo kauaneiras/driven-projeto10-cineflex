@@ -1,5 +1,5 @@
 //MODULES
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GlobalStyle from './GlobalStyle';
 
 // PAGES
@@ -16,7 +16,7 @@ export default function App(){
             <Routes>
                 <Route path="/" element={<SelectMovie/>}/>
                 <Route path="/sessoes/:idMovie" element={<SelectSection/>}/>
-                <Route path="/assentos/" element={<SelectSeats/>}/>
+                <Route path="/assentos/:time.id" element={<SelectSeats/>}/>
                 <Route path="/sucesso/" element={<OrderConfirmation/>}/>
                 {/* <Route path="/game/:idDeck" element={<Game/>}/> */}
             </Routes>

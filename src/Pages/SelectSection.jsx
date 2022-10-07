@@ -20,8 +20,6 @@ export default function SelectSectionTime() {
         promisse.catch((warning) => console.log(warning.response));
     }, []);
 
-    console.log(sections);
-    console.log(sections.days);
     const days = sections.days;
 
 
@@ -35,7 +33,7 @@ export default function SelectSectionTime() {
             <AlignSections>
                 {days.map((section) => RenderTimes(section))}
             </AlignSections>
-            <Footer image={sections.posterURL} title={sections.title} time=""/>
+            <Footer image={sections.posterURL} title={sections.title} weekday="" time=""/>
         </AlignPage>)
     }
 }

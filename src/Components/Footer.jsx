@@ -1,10 +1,11 @@
 import styled from "styled-components"
 
 export default function Footer(movie) {
+
     return (
         <FooterDiv>
             <MoviePoster src={movie.image} alt=""/>
-            <TextFooter>{movie.title}{movie.time}</TextFooter>
+            <TextFooter>{movie.title}<br/>{movie.weekday} - {movie.time}</TextFooter>
         </FooterDiv>
     )
 }

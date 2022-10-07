@@ -46,13 +46,14 @@ const Tittle = styled.h1`
     margin: 20px;
 `
 const AlignPage = styled.div`
+    position: relative;
     display: flex;
     margin-top: 50px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: 80vh;
     background-color: #FFFFFF;
     position: absolute;
 `

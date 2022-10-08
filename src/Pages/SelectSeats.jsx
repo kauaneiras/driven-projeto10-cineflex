@@ -8,58 +8,60 @@ import Footer from "../Components/Footer";
 
 import Loading from "../Components/Loading";
 
-export default function SelectSeats(){
-    const {idSeats} = useParams();
+export default function SelectSeats() {
+    const { idSeats } = useParams();
     const [sectionseats, setSectionseats] = useState(false);
     const [selectedseats, setSelectedseats] = useState([]);
 
-   
+
     useEffect(() => {
         const promisse = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSeats}/seats`);
         promisse.then((sucess) => { setSectionseats(sucess.data) });
         promisse.catch((warning) => console.log(warning.response));
     }, []);
 
-    console.log(sectionseats.movie)
+    // put the selected seats in an selectedseats array and define the style of the seats
+    function selectSeat(seat) {
 
+        if (!seat.isAvailable) {
+            return(<SeatsNotFree data-identifier="seat">{seat.name}</SeatsNotFree>);
+        }
+        else if(seat.isAvailable && !(selectedseats.includes(seat.name))){
+            return(<SeatsFree data-identifier="seat" color={"#C3CFD9"} border={"1px solid #7B8B99"} onClick={() => {setSelectedseats([...selectedseats, seat.name]);}}>{seat.name}</SeatsFree>);
+        }
+        else if(seat.isAvailable && selectedseats.includes(seat.name)){
+            return(<SeatsFree color={"#8DD7CF"} border={"1px solid #0E7D71"} onClick={() => removeItemFromArr(seat.name) }>{seat.name}</SeatsFree>);
+        }
+    }
+    //removes the seat from the selectedseats array
+    function removeItemFromArr(seat) {
+        const newArray = selectedseats.filter((item) => item !== seat)
+        console.log ("REMOVEU DO ARRAY, NOVO ARRAY: "+newArray)
+        setSelectedseats(newArray);
+    }
+    
+    
     if (sectionseats === false) {
-        return (<AlignPage><TopBar/><Loading/></AlignPage>)
+        return (<AlignPage><TopBar /><Loading /></AlignPage>)
     }
     else {
-        return(
+        return (
             <AlignPage>
-                <TopBar/>
+                <TopBar />
                 <SelectSeatText>Selecione o(s) assento(s)</SelectSeatText>
-                <SeatsContainer>
-                    {sectionseats.seats.map((seat) => <RenderSeats seat={seat}/>)}
-                </SeatsContainer>
+                <SeatsContainer>{sectionseats.seats.map((seat) => selectSeat(seat))}</SeatsContainer>
                 <DescriptionAboutSeats/>
-                <Form/>
+                <Form />
                 <Button>Reservar assento(s)</Button>
-            <Footer image={sectionseats.movie.posterURL} title={sectionseats.movie.title} time={sectionseats.name} weekday={sectionseats.day.weekday} />
-        </AlignPage>
-    )
-}
-}
-
-
-
-function RenderSeats({seat}) {
-       
-       console.log(seat.name+" : "+seat.isAvailable);
-       const [selected, setSelected] = useState(false);    
-
-        if (seat.isAvailable === true){
-           return(<SeatsFree onClick={()=> (selected == false) ? setSelected(true) : setSelected(false)} selected={selected}>{seat.name}</SeatsFree>)
-        }
-        else if (seat.isAvailable === false){
-           return(
-               <SeatsNotFree>{seat.name}</SeatsNotFree>)
-        }
+                <Footer image={sectionseats.movie.posterURL} title={sectionseats.movie.title} time={sectionseats.name} weekday={sectionseats.day.weekday} />
+            </AlignPage>
+        )
+    }
 }
 
-function DescriptionAboutSeats(){
-    return(
+
+function DescriptionAboutSeats() {
+    return (
         <Description>
             <SeatsDescriptionSelected><SELECT></SELECT><h3>Selecionado</h3></SeatsDescriptionSelected>
             <SeatsDescriptionFree><FREE></FREE><h3>Disponível</h3></SeatsDescriptionFree>
@@ -68,13 +70,13 @@ function DescriptionAboutSeats(){
     )
 }
 
-function Form(){
-    return(
+function Form() {
+    return (
         <FormContainer>
             <Name>Nome do comprador:</Name>
-            <InputName type="text" placeholder="Digite seu nome..."/>
+            <InputName type="text" placeholder="Digite seu nome..." />
             <CPF>CPF do comprador:</CPF>
-            <InputCPF type="number" placeholder="Digite seu CPF..."/>
+            <InputCPF type="number" placeholder="Digite seu CPF..." />
         </FormContainer>
     )
 }
@@ -105,8 +107,8 @@ const SeatsFree = styled.div`
     left: 24px;
     top: 158px;
     cursor: pointer;
-    background-color: ${selected => selected.selected == true ? "#1AAE9E" : "#C3CFD9"};
-    border: ${selected => selected.selected == true ? "1px solid #0E7D71" : "1px solid #7B8B99;"};
+    background-color: ${props => props.color};
+    border: ${props => props.border};
     border-radius: 12px;
 `
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

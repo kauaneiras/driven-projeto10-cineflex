@@ -25,7 +25,7 @@ export default function SelectMovie() {
             <AlignPage>
                 <TopBar />
                 
-                    <Tittle style={{marginTop:'1650px'}}>Selecione o filme</Tittle>
+                    <Tittle>Selecione o filme</Tittle>
                     <MoviesAlign style={{marginTop:'10px'}}>
                         {movies.map((movie) => <Link to={`/sessoes/${movie.id}`}><MovieImage src={movie.posterURL} alt="" /></Link>)}
                     </MoviesAlign>
@@ -36,6 +36,7 @@ export default function SelectMovie() {
 }
 
 const Tittle = styled.h1`
+
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -46,6 +47,10 @@ const Tittle = styled.h1`
     text-align: center;
     letter-spacing: 0.04em;
     margin: 20px;
+    margin-top: 1650px;
+    @media (min-width: 500px) {
+        margin-top: 200px;}
+
 `
 const AlignPage = styled.div`
     position: absolute;

@@ -26,20 +26,20 @@ export default function OrderComfirmation(){
                 <ContainerInfos>
                     <Container>
                         <Tittles>Filme e sessão</Tittles>
-                        <Infos>{title}</Infos>
-                        <Infos>{arrdate} {arrtime}</Infos>
+                        <Infos data-identifier="movie-session-infos-reserve-finished">{title}</Infos>
+                        <Infos data-identifier="movie-session-infos-reserve-finished">{arrdate} {arrtime}</Infos>
                     </Container>
                     <Container>
                         <Tittles>Ingressos</Tittles>
-                        {arrseat.map((seat, index) => <Infos key={index}>Assento {seat}</Infos>)}
+                        {arrseat.map((seat, index) => <Infos data-identifier="seat-infos-reserve-finished" key={index}>Assento {seat}</Infos>)}
                     </Container>
                     <Container>
                         <Tittles>Comprador</Tittles>
-                        <Infos>{name}</Infos>
-                        <Infos>{cpf}</Infos>
+                        <Infos data-identifier="buyer-infos-reserve-finished">{name}</Infos>
+                        <Infos data-identifier="buyer-infos-reserve-finished">{cpf}</Infos>
                     </Container>
 
-                    <ButtonContainer><Button onClick={()=> setGoToHome(true)}>Voltar pra Home</Button></ButtonContainer>
+                    <ButtonContainer><Button data-identifier="back-to-home-btn" onClick={()=> setGoToHome(true)}>Voltar pra Home</Button></ButtonContainer>
                 </ContainerInfos>
             </AlignPage>
         )

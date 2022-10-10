@@ -5,14 +5,13 @@ export default function Footer(movie) {
     return (
         <FooterDiv>
             <MoviePoster src={movie.image} alt=""/>
-            <TextFooter>{movie.title}<br/>{movie.weekday} - {movie.time}</TextFooter>
+            <TextFooter data-identifier="movie-and-session-infos-preview">{movie.title}<br/>{movie.weekday} - {movie.time}</TextFooter>
         </FooterDiv>
     )
 }
 
 
 const FooterDiv = styled.div`
-    index: 1;
     position: fixed;
     display: flex;
     flex-direction: row;

@@ -36,7 +36,7 @@ export default function SelectSeats() {
             return(<SeatsFree data-identifier="seat" color={"#C3CFD9"} border={"1px solid #7B8B99"} onClick={() => {setSelectedseats([...selectedseats, seat.name]); setIds([...ids, seat.id])}}>{seat.name}</SeatsFree>);
         }
         else if(seat.isAvailable && selectedseats.includes(seat.name)){
-            return(<SeatsFree color={"#8DD7CF"} border={"1px solid #0E7D71"} onClick={() => removeItemFromArr({seat})}>{seat.name}</SeatsFree>);
+            return(<SeatsFree data-identifier="seat" color={"#8DD7CF"} border={"1px solid #0E7D71"} onClick={() => removeItemFromArr({seat})}>{seat.name}</SeatsFree>);
         }
     }
     //removes the seat from the selectedseats array
@@ -74,10 +74,10 @@ export default function SelectSeats() {
                     <form onSubmit={goToNextPage}>
                         <FormContainer>
                         <Name>Nome do comprador:</Name>
-                        <InputName type="text" placeholder="Digite seu nome..." value={name} onChange={(e) => {setName( e.target.value)}} />
+                        <InputName data-identifier="buyer-name-input" type="text" placeholder="Digite seu nome..." value={name} onChange={(e) => {setName( e.target.value)}} />
                         <CPF>CPF do comprador:</CPF>
-                        <InputCPF type="number" placeholder="Digite seu CPF..." value={cpf} onChange={(e) => {setCpf( e.target.value)}}/>
-                        <Button type="submit">Reservar assento(s)</Button>
+                        <InputCPF data-identifier="buyer-cpf-input" type="number" placeholder="Digite seu CPF..." value={cpf} onChange={(e) => {setCpf( e.target.value)}}/>
+                        <Button data-identifier="reservation-btn" type="submit">Reservar assento(s)</Button>
                         </FormContainer>
                     </form>                
                     <Footer image={sectionseats.movie.posterURL} title={sectionseats.movie.title} time={sectionseats.name} weekday={sectionseats.day.weekday} />
@@ -91,9 +91,9 @@ export default function SelectSeats() {
 function DescriptionAboutSeats() {
     return (
         <Description>
-            <SeatsDescriptionSelected><SELECT></SELECT><h3>Selecionado</h3></SeatsDescriptionSelected>
-            <SeatsDescriptionFree><FREE></FREE><h3>Disponível</h3></SeatsDescriptionFree>
-            <SeatsDescriptionNotFree><NOTFREE></NOTFREE><h3>Indisponível</h3></SeatsDescriptionNotFree>
+            <SeatsDescriptionSelected><SELECT data-identifier="seat-selected-subtitle"></SELECT><h3>Selecionado</h3></SeatsDescriptionSelected>
+            <SeatsDescriptionFree><FREE data-identifier="seat-available-subtitle"></FREE><h3>Disponível</h3></SeatsDescriptionFree>
+            <SeatsDescriptionNotFree><NOTFREE data-identifier="seat-unavailable-subtitle"></NOTFREE><h3>Indisponível</h3></SeatsDescriptionNotFree>
         </Description>
     )
 }

@@ -27,7 +27,7 @@ export default function SelectMovie() {
                 
                     <Tittle>Selecione o filme</Tittle>
                     <MoviesAlign style={{marginTop:'10px'}}>
-                        {movies.map((movie) => <Link to={`/sessoes/${movie.id}`}><MovieImage src={movie.posterURL} alt="" /></Link>)}
+                        {movies.map((movie) => <Link data-identifier="movie-outdoor" to={`/sessoes/${movie.id}`}><MovieImage src={movie.posterURL} alt="" /></Link>)}
                     </MoviesAlign>
         
             </AlignPage>

@@ -12,6 +12,7 @@ export default function Footer(movie) {
 
 
 const FooterDiv = styled.div`
+    index: 1;
     position: fixed;
     display: flex;
     flex-direction: row;

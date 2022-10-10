@@ -6,7 +6,7 @@ import GlobalStyle from './GlobalStyle';
 import SelectMovie from '../Pages/SelectMovie'; // first page
 import SelectSection from '../Pages/SelectSection'; // second page
 import SelectSeats from '../Pages/SelectSeats'; // third page
-import OrderConfirmation from '../Pages/OrderConfirmation'; // fourth page
+import Sucess from '../Pages/Sucess'; // fourth page
 
 
 export default function App(){
@@ -15,9 +15,9 @@ export default function App(){
             <GlobalStyle/>
             <Routes>
                 <Route path="/" element={<SelectMovie/>}/>
-                <Route path="/sections/:idMovie" element={<SelectSection/>}/>
-                <Route path="/seats/:idSeats" element={<SelectSeats/>}/>
-                <Route path="/sucess/" element={<OrderConfirmation/>}/>
+                <Route path="/sessoes/:idFilme" element={<SelectSection/>}/>
+                <Route path="/assentos/:idSessao" element={<SelectSeats/>}/>
+                <Route path="/sucess/:title/:time/:date/:name/:cpf/:newseats" element={<Sucess/>}/>
             </Routes>
         </BrowserRouter>      
     )

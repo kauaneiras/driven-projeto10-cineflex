@@ -9,6 +9,7 @@ export default function TopBar(){
 }
 
 const TopBarContainer = styled.div`
+    index: 10;
     position: fixed;
     display: flex;
     justify-content: center;

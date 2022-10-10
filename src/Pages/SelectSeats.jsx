@@ -1,21 +1,27 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
+
 import styled from "styled-components";
 import axios from "axios";
+
+//COMPONENTS
 import TopBar from "../Components/TopBar";
 import Footer from "../Components/Footer";
-
 import Loading from "../Components/Loading";
 
 export default function SelectSeats() {
-    const { idSeats } = useParams();
+    const { idSessao } = useParams();
     const [sectionseats, setSectionseats] = useState(false);
     const [selectedseats, setSelectedseats] = useState([]);
-
+    const [ids , setIds] = useState([]);
+    const [name, setName] = useState("");
+    const [cpf, setCpf] = useState("");
+    const [pagesucess, setPagesucess] = useState(false);
+    // setSelected({number: number, isAvailable: true, id: id}
 
     useEffect(() => {
-        const promisse = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSeats}/seats`);
+        const promisse = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`);
         promisse.then((sucess) => { setSectionseats(sucess.data) });
         promisse.catch((warning) => console.log(warning.response));
     }, []);
@@ -27,36 +33,58 @@ export default function SelectSeats() {
             return(<SeatsNotFree data-identifier="seat">{seat.name}</SeatsNotFree>);
         }
         else if(seat.isAvailable && !(selectedseats.includes(seat.name))){
-            return(<SeatsFree data-identifier="seat" color={"#C3CFD9"} border={"1px solid #7B8B99"} onClick={() => {setSelectedseats([...selectedseats, seat.name]);}}>{seat.name}</SeatsFree>);
+            return(<SeatsFree data-identifier="seat" color={"#C3CFD9"} border={"1px solid #7B8B99"} onClick={() => {setSelectedseats([...selectedseats, seat.name]); setIds([...ids, seat.id])}}>{seat.name}</SeatsFree>);
         }
         else if(seat.isAvailable && selectedseats.includes(seat.name)){
-            return(<SeatsFree color={"#8DD7CF"} border={"1px solid #0E7D71"} onClick={() => removeItemFromArr(seat.name) }>{seat.name}</SeatsFree>);
+            return(<SeatsFree color={"#8DD7CF"} border={"1px solid #0E7D71"} onClick={() => removeItemFromArr({seat})}>{seat.name}</SeatsFree>);
         }
     }
     //removes the seat from the selectedseats array
-    function removeItemFromArr(seat) {
-        const newArray = selectedseats.filter((item) => item !== seat)
-        console.log ("REMOVEU DO ARRAY, NOVO ARRAY: "+newArray)
+    function removeItemFromArr({seat}) {
+        const newArray = selectedseats.filter((item) => item !== seat.name)
+        const newArrayIds = ids.filter((item) => item !== seat.id)
         setSelectedseats(newArray);
+        setIds(newArrayIds);
     }
     
-    
-    if (sectionseats === false) {
-        return (<AlignPage><TopBar /><Loading /></AlignPage>)
+    function goToNextPage(event) {
+        event.preventDefault();
+        ;
+        if(name ===""){alert("Por favor, insira o seu nome")}
+        else if(selectedseats.length === 0){alert("Selecione o(s) seu assento(s), por favor!")}
+        else if(cpf.length !== 11){alert("Seu CPF está incorreto!")}
+        else{
+            const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", {ids: ids, name: name, cpf: cpf});
+            promise.then(() => {setPagesucess(true); });
+            promise.catch((warning) => {alert("erro")});
+        }
     }
-    else {
-        return (
-            <AlignPage>
-                <TopBar />
-                <SelectSeatText>Selecione o(s) assento(s)</SelectSeatText>
-                <SeatsContainer>{sectionseats.seats.map((seat) => selectSeat(seat))}</SeatsContainer>
-                <DescriptionAboutSeats/>
-                <Form />
-                <Button>Reservar assento(s)</Button>
-                <Footer image={sectionseats.movie.posterURL} title={sectionseats.movie.title} time={sectionseats.name} weekday={sectionseats.day.weekday} />
-            </AlignPage>
-        )
-    }
+
+    if (pagesucess === false) {
+        if (sectionseats === false) {
+            return (<AlignPage><TopBar /><Loading /></AlignPage>)
+        }
+        else {
+            return (
+                <AlignPage>
+                    <TopBar/>
+                    <SelectSeatText>Selecione o(s) assento(s)</SelectSeatText>
+                    <SeatsContainer>{sectionseats.seats.map((seat) => selectSeat(seat))}</SeatsContainer>
+                    <DescriptionAboutSeats/>
+                    <form onSubmit={goToNextPage}>
+                        <FormContainer>
+                        <Name>Nome do comprador:</Name>
+                        <InputName type="text" placeholder="Digite seu nome..." value={name} onChange={(e) => {setName( e.target.value)}} />
+                        <CPF>CPF do comprador:</CPF>
+                        <InputCPF type="number" placeholder="Digite seu CPF..." value={cpf} onChange={(e) => {setCpf( e.target.value)}}/>
+                        <Button type="submit">Reservar assento(s)</Button>
+                        </FormContainer>
+                    </form>                
+                    <Footer image={sectionseats.movie.posterURL} title={sectionseats.movie.title} time={sectionseats.name} weekday={sectionseats.day.weekday} />
+                </AlignPage>
+            )
+        }
+    } else { let newseats = selectedseats.join('-'); let title = sectionseats.movie.title; let newtime = sectionseats.name.replace(':', 'h'); let newdate = sectionseats.day.date.replace('/', 'd').replace('/', 'd'); return(<Navigate to={`/sucess/${title}/${newtime}/${newdate}/${name}/${cpf}/${newseats}/`}/>)}
 }
 
 
@@ -70,16 +98,7 @@ function DescriptionAboutSeats() {
     )
 }
 
-function Form() {
-    return (
-        <FormContainer>
-            <Name>Nome do comprador:</Name>
-            <InputName type="text" placeholder="Digite seu nome..." />
-            <CPF>CPF do comprador:</CPF>
-            <InputCPF type="number" placeholder="Digite seu CPF..." />
-        </FormContainer>
-    )
-}
+
 
 // Styles for <RenderSeats> ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const SeatsNotFree = styled.div`
@@ -133,6 +152,12 @@ const Button = styled.button`
     text-align: center;
     letter-spacing: 0.04em;
     color: #FFFFFF;
+    cursor: pointer;
+    margin-left: 50px;
+    border: none;
+    :hover{
+        background-color: #FCAE5B;
+    }
 `
 
 const AlignPage = styled.div`

@@ -10,12 +10,12 @@ import Footer from "../Components/Footer";
 
 
 export default function SelectSectionTime() {
-    const { idMovie } = useParams();
+    const { idFilme } = useParams();
     const [sections, setSections] = useState(false);
 
 
     useEffect(() => {
-        const promisse = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idMovie}/showtimes`);
+        const promisse = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilme}/showtimes`);
         promisse.then((sucess) => { setSections(sucess.data) });
         promisse.catch((warning) => console.log(warning.response));
     }, []);
@@ -27,9 +27,9 @@ export default function SelectSectionTime() {
         return (<AlignPage><TopBar/><Loading /></AlignPage>)
     }
     else {
-        return (<AlignPage>
+        return (<AlignPage style={{marginTop:'100px'}}>
             <TopBar />
-            <Tittle>Selecione o horário</Tittle>
+            <Tittle style={{marginBottom:'50px', marginLeft:'50px'}}>Selecione o horário</Tittle>
             <AlignSections>
                 {days.map((section) => RenderTimes(section))}
             </AlignSections>
@@ -41,11 +41,11 @@ export default function SelectSectionTime() {
 function RenderTimes(section) {
     let showtimes = section.showtimes;
     return (<AlignSections>
-        <Day>{section.weekday} - {section.date}</Day>
+        <Day data-identifier="session-date">{section.weekday} - {section.date}</Day>
         <ShowTimes>
             {showtimes.map(time => {
                 return (
-                    <Link to={`/seats/${time.id}`} >
+                    <Link data-identifier="hour-minute-btn" to={`/assentos/${time.id}`} style={{textDecoration:'none'}} >
                         <Hour>
                             <HourNumber>{time.name}</HourNumber>
                         </Hour>
@@ -65,8 +65,6 @@ const AlignSections = styled.div`
     width: 100%;
     height: 100%;
     background-color: #FFFFFF;
-  
-
 `
 const Hour = styled.div`
     width: 82px;
@@ -133,7 +131,7 @@ const Tittle = styled.h1`
 `
 
 const AlignPage = styled.div`
-    position: relative;
+    
     display: flex;
     margin-top: 50px;
     flex-direction: column;
@@ -143,5 +141,6 @@ const AlignPage = styled.div`
     width: 100%;
     height: 80vh;
     background-color: #FFFFFF;
-    position: absolute;
+    margin-bottom: 350px;
+
     `

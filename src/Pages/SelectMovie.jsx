@@ -24,25 +24,17 @@ export default function SelectMovie() {
         return (
             <AlignPage>
                 <TopBar />
-                <Container>
-                    <Tittle>Selecione o filme</Tittle>
-                    <MoviesAlign>
-                        {movies.map((movie) => <Link data-identifier="movie-outdoor" to={`/sessoes/${movie.id}`}><MovieImage src={movie.posterURL} alt="" /></Link>)}
+                
+                    <Tittle style={{marginTop:'1650px'}}>Selecione o filme</Tittle>
+                    <MoviesAlign style={{marginTop:'10px'}}>
+                        {movies.map((movie) => <Link to={`/sessoes/${movie.id}`}><MovieImage src={movie.posterURL} alt="" /></Link>)}
                     </MoviesAlign>
-                </Container>
+        
             </AlignPage>
         )
     }
 }
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1600px;
-
-`
 const Tittle = styled.h1`
     font-family: 'Roboto';
     font-style: normal;
